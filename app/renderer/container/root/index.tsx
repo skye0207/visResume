@@ -2,16 +2,18 @@ import React from 'react';
 import { shell } from 'electron';
 import './index.less';
 import { useHistory } from 'react-router';
-import Logo from '../../../../assets/logo.png';
+import Logo from '@assets/logo.png';
+import { ROUTER_ENTRY } from '@common/constants/router';
+import { isHttpOrHttpsUrl } from '@common/utils/router';
 
 function Root() {
   const history = useHistory();
 
-  const onRouterToLink = (text: string) => {
-    if (text === '简历') {
-      history.push('/resume');
+  const onRouterToLink = (router: TSRouter.Item) => {
+    if (isHttpOrHttpsUrl(router.url)) {
+      shell.openExternal(router.url);
     } else {
-      shell.openExternal('https://github.com/skye/visResume');
+      history.push(router.url);
     }
   };
 
@@ -22,10 +24,10 @@ function Root() {
         <div styleName="title">Vis Resume</div>
         <div styleName="tips">A Resume making platform, which makes your resume outstanding!</div>
         <div styleName="action">
-          {['介绍', '简历', '源码'].map((text, index) => {
+          {ROUTER_ENTRY.map((router: TSRouter.Item) => {
             return (
-              <div key={index} styleName="item" onClick={() => onRouterToLink(text)}>
-                {text}
+              <div key={router.key} styleName="item" onClick={() => onRouterToLink(router)}>
+                {router.text}
               </div>
             );
           })}
