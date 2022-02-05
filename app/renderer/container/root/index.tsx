@@ -1,29 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { shell } from 'electron';
 import './index.less';
 import { useHistory } from 'react-router';
 import Logo from '@assets/logo.png';
 import { ROUTER_ENTRY } from '@common/constants/router';
 import { isHttpOrHttpsUrl } from '@common/utils/router';
-import { useSelector, useDispatch } from 'react-redux';
 
 function Root() {
-  const dispatch = useDispatch();
-  const appName = useSelector((state: any) => state.globalModel.appName);
-  console.log('appName= ', appName);
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch({
-        type: 'globalModel/setStore',
-        payload: {
-          key: 'appName',
-          values: 'visResume',
-        },
-      });
-    }, 3000);
-  }, []);
-
   const history = useHistory();
 
   const onRouterToLink = (router: TSRouter.Item) => {
